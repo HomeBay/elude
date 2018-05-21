@@ -1,0 +1,19 @@
+{
+  "name": "elude",
+  "bsc-flags": ["-bs-no-version-header", "-bs-super-errors"],
+  "version": "0.1.0",
+
+  "sources": [{
+    "dir": "./src",
+    "subdirs": true
+  }],
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": false
+  },
+  "refmt": 3,
+  "suffix": ".bs.js",
+  "warnings": {
+    "error": "+8+11"
+  }
+}
