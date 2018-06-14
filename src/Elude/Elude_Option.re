@@ -79,3 +79,11 @@ let map2 = (fn, a, b) => switch (a, b) {
 | _ => None
 };
 
+/**
+ * Returns an empty list if the provided value is `None` and a list with one
+ * element if the value is `Some(...)`
+ */
+let toList = (v) => switch (v) {
+| Some(v) => [v]
+| None => []
+};
