@@ -25,6 +25,31 @@ let fromOption = (errorMsg, opt) => switch opt {
 };
 
 /**
+ * Perform a side effect with the result of a successful promise.
+ */
+let success = (fn: 'a => unit, prom) =>
+  map(a => { fn(a); a }, prom);
+
+/**
+ * Perform a side effect using the error from a failed promise.
+ */
+let failure = (fn: Js.Promise.error => unit, prom: Js.Promise.t('a)) =>
+  flatMap(err => { fn(err); prom }, prom);
+
+/**
+ * Convert a failed promise into a successful promise of some time.
+ */
+let recover = (fn: Js.Promise.error => 'a, prom) =>
+  Js.Promise.catch(err => pure(fn(err)), prom);
+
+/**
+ * Convert a failed promise into a new promise that may or may not succeed.
+ */
+let recoverWith = (fn: Js.Promise.error => Js.Promise.t('a), prom) =>
+  Js.Promise.catch(fn, prom);
+
+
+/**
  * Given a function from `'a => 'b` that can throw an exception, and a promise
  * of `'a`, flatMap into a promise of 'b, rejecting if the function throws.
  */
