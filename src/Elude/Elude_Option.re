@@ -87,3 +87,19 @@ let toList = (v) => switch (v) {
 | Some(v) => [v]
 | None => []
 };
+
+/**
+ * Compare two options by determining whether the values they hold are equal.
+ *
+ * e.g.
+ *
+ * `eq(Some(a), Some(b)) == true /* if innerEq(a, b) */`
+ * `eq(None, None) == true`
+ *
+ * Any other combination is `false`
+ */
+let eq = (innerEq, a, b) => switch (a, b) {
+| (Some(x), Some(y)) => innerEq(x, y)
+| (None, None) => true
+| _ => false
+};
