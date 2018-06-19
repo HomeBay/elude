@@ -45,6 +45,15 @@ let null = (lst): bool => switch lst {
 let elem = (eq, el, lst) => any(eq(el), lst);
 
 /**
+ * Return the first value in the list that satisfies the given predicate.
+ */
+let find = (pred, lst) =>
+  foldl((acc, curr) => switch acc {
+  | None when (pred(curr)) => Some(curr)
+  | _ => acc
+  }, None, lst);
+
+/**
  * Remove all elements from a list that satisfy a predicate (inverse of filter)
  */
 let removeAll = (eq, el, lst) =>
