@@ -34,7 +34,7 @@ let success = (fn: 'a => unit, prom) =>
  * Perform a side effect using the error from a failed promise.
  */
 let failure = (fn: Js.Promise.error => unit, prom: Js.Promise.t('a)) =>
-  flatMap(err => { fn(err); prom }, prom);
+  Js.Promise.catch(err => { fn(err); prom}, prom);
 
 /**
  * Convert a failed promise into a successful promise of some time.
