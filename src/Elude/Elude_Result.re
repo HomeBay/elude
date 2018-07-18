@@ -3,6 +3,11 @@ type t('e, 'a) =
   | Ok('a)
   ;
 
+let fromBelt = v => switch v {
+| Belt.Result.Ok(a) => Ok(a)
+| Belt.Result.Error(e) => Err(e)
+};
+
 let pure = v => Ok(v);
 
 let mapOk = (fn, r) => switch r {
