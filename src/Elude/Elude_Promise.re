@@ -25,12 +25,17 @@ let fromOption = (errorMsg, opt) => switch opt {
 };
 
 /**
+ * Convert a `Result.t` to a `Promise.t`
+ */
+let fromResult = (errToExn, result) => switch result {
+| Elude_Result.Ok(a) => pure(a)
+| Elude_Result.Err(e) => reject(errToExn(e))
+};
+
+/**
  * Convert a `result` with a string error to a `promise`
  */
-let fromResult = result => switch result {
-| Elude_Result.Ok(v) => pure(v);
-| Elude_Result.Err(e) => rejectStr(e);
-};
+let fromStringResult(v) = fromResult(str => Exn.PromiseFailure(str), v);
 
 /**
  * Perform a side effect with the result of a successful promise.

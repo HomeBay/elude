@@ -40,11 +40,6 @@ let flatMap = (fn, r) => switch r {
 | Err(x) => Err(x)
 };
 
-let toPromise = (errToExn, r) => switch r {
-| Ok(a) => Elude_Promise.pure(a)
-| Err(e) => Elude_Promise.reject(errToExn(e))
-};
-
 let toOption = r => switch r {
 | Ok(a) => Some(a)
 | Err(_) => None
