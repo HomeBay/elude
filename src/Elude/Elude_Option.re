@@ -80,6 +80,11 @@ let map2 = (fn, a, b) => switch (a, b) {
 };
 
 /**
+ * Turn any value into an option (e.g. `pure(4) == Some(4)`)
+ */
+let pure = v => Some(v);
+
+/**
  * Returns an empty list if the provided value is `None` and a list with one
  * element if the value is `Some(...)`
  */

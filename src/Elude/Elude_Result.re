@@ -22,9 +22,17 @@ let mapErr = (fn, r) => switch r {
 
 let map = mapOk;
 
+let ap = (fn, either: t('e, 'a)): t('e, 'b) => switch either {
+| Err(err) => Err(err)
+| Ok(v) => switch fn {
+  | Err(x) => Err(x) /* compiler gets confused when we implement this in terms of map */
+  | Ok(f) => Ok(f(v))
+  }
+};
+
 let flatMap = (fn, r) => switch r {
 | Ok(a) => fn(a)
-| _ => r
+| Err(x) => Err(x)
 };
 
 let toPromise = (errToExn, r) => switch r {
