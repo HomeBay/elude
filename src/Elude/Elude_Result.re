@@ -8,6 +8,11 @@ let fromBelt = v => switch v {
 | Belt.Result.Error(e) => Err(e)
 };
 
+let toBelt = v => switch v {
+| Ok(a) => Belt.Result.Ok(a)
+| Err(e) => Belt.Result.Error(e)
+};
+
 let pure = v => Ok(v);
 
 let mapOk = (fn, r) => switch r {

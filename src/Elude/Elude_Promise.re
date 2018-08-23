@@ -25,6 +25,14 @@ let fromOption = (errorMsg, opt) => switch opt {
 };
 
 /**
+ * Convert a `result` with a string error to a `promise`
+ */
+let fromResult = result => switch result {
+| Elude_Result.Ok(v) => pure(v);
+| Elude_Result.Err(e) => rejectStr(e);
+};
+
+/**
  * Perform a side effect with the result of a successful promise.
  */
 let success = (fn: 'a => unit, prom) =>

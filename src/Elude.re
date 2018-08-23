@@ -5,3 +5,4 @@ module Promise = Elude_Promise;
 module String = Elude_String;
 module NonEmpty = Elude_NonEmpty;
 module Result = Elude_Result;
+module Json = Elude_Json;
