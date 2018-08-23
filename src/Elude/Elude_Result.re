@@ -17,22 +17,19 @@ let pure = v => Ok(v);
 
 let mapOk = (fn, r) => switch r {
 | Ok(a) => Ok(fn(a))
-| _ => r
+| Err(e) => Err(e)
 };
 
 let mapErr = (fn, r) => switch r {
 | Err(x) => Err(fn(x))
-| _ => r
+| Ok(a) => Ok(a)
 };
 
 let map = mapOk;
 
 let ap = (fn, either: t('e, 'a)): t('e, 'b) => switch either {
+| Ok(v) => map(f => f(v), fn)
 | Err(err) => Err(err)
-| Ok(v) => switch fn {
-  | Err(x) => Err(x) /* compiler gets confused when we implement this in terms of map */
-  | Ok(f) => Ok(f(v))
-  }
 };
 
 let flatMap = (fn, r) => switch r {

@@ -1,3 +1,4 @@
+module Array = Elude_Array;
 module List = Elude_List;
 module Option = Elude_Option;
 module Ordering = Elude_Ordering;
