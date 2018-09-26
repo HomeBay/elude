@@ -2,6 +2,9 @@
   "name": "elude",
   "bsc-flags": ["-bs-no-version-header", "-bs-super-errors"],
   "version": "0.1.0",
+  "bs-dependencies": [
+    "bs-nonempty"
+  ],
 
   "sources": [{
     "dir": "./src",
