@@ -5,5 +5,5 @@
 
 include NonEmptyList;
 
-let fromList: list('a) => option(NonEmptyList.t('a)) = NonEmptyList.fromT;
-let toList: NonEmptyList.t('a) => list('a) = NonEmptyList.toT;
+let fromList: list('a) => option(t('a)) = NonEmptyList.fromT;
+let toList: t('a) => list('a) = NonEmptyList.toT;
