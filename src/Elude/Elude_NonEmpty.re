@@ -1,9 +1,20 @@
-/**
- * NonEmpty has moved to its own project: bs-nonempty. The API changes are
- * minimal from Elude's old NonEmpty
- */
+type t('a) =
+  | NonEmpty('a, list('a));
 
-include NonEmptyList;
+let make = (x, lst) => NonEmpty(x, lst);
+let pure = (x: 'a) => NonEmpty(x, []);
+let fromList = (l: list('a)): option(t('a)) => switch l {
+| [] => None
+| [x, ...xs] => Some(NonEmpty(x, xs))
+};
 
-let fromList: list('a) => option(t('a)) = NonEmptyList.fromT;
-let toList: t('a) => list('a) = NonEmptyList.toT;
+let toList = (NonEmpty(x, xs)) => [x, ...xs];
+
+let head = (NonEmpty(x, _)) => x;
+let tail = (NonEmpty(_, xs)) => xs;
+
+let map = (f: 'a => 'b, (NonEmpty(x, xs))) =>
+  NonEmpty(f(x), Belt.List.map(xs, f));
+
+let foldl = (f: ('b => 'a => 'b), init: 'b, data: t('a)): 'b =>
+  Belt.List.reduce(toList(data), init, f);

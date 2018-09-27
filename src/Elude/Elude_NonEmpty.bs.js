@@ -1,89 +1,64 @@
 'use strict';
 
-var NonEmptyList = require("bs-nonempty/./src/NonEmptyList.bs.js");
+var Curry = require("bs-platform/lib/js/curry.js");
+var Belt_List = require("bs-platform/lib/js/belt_List.js");
 
-var fromList = NonEmptyList.NonEmptyList[/* fromT */5];
+function make(x, lst) {
+  return /* NonEmpty */[
+          x,
+          lst
+        ];
+}
 
-var toList = NonEmptyList.NonEmptyList[/* toT */6];
+function pure(x) {
+  return /* NonEmpty */[
+          x,
+          /* [] */0
+        ];
+}
 
-var ListMonoid = NonEmptyList.ListMonoid;
+function fromList(l) {
+  if (l) {
+    return /* NonEmpty */[
+            l[0],
+            l[1]
+          ];
+  }
+  
+}
 
-var ListArrayLike = NonEmptyList.ListArrayLike;
+function toList(param) {
+  return /* :: */[
+          param[0],
+          param[1]
+        ];
+}
 
-var NonEmptyList$1 = NonEmptyList.NonEmptyList;
+function head(param) {
+  return param[0];
+}
 
-var make = NonEmptyList.make;
+function tail(param) {
+  return param[1];
+}
 
-var head = NonEmptyList.head;
+function map(f, param) {
+  return /* NonEmpty */[
+          Curry._1(f, param[0]),
+          Belt_List.map(param[1], f)
+        ];
+}
 
-var tail = NonEmptyList.tail;
+function foldl(f, init, data) {
+  return Belt_List.reduce(toList(data), init, f);
+}
 
-var length = NonEmptyList.length;
-
-var pure = NonEmptyList.pure;
-
-var fromT = NonEmptyList.fromT;
-
-var toT = NonEmptyList.toT;
-
-var append = NonEmptyList.append;
-
-var cons = NonEmptyList.cons;
-
-var fold_left = NonEmptyList.fold_left;
-
-var foldl1 = NonEmptyList.foldl1;
-
-var reverse = NonEmptyList.reverse;
-
-var map = NonEmptyList.map;
-
-var join = NonEmptyList.join;
-
-var apply = NonEmptyList.apply;
-
-var flat_map = NonEmptyList.flat_map;
-
-var Magma_Any = NonEmptyList.Magma_Any;
-
-var Semigroup_Any = NonEmptyList.Semigroup_Any;
-
-var Functor = NonEmptyList.Functor;
-
-var Apply = NonEmptyList.Apply;
-
-var Applicative = NonEmptyList.Applicative;
-
-var Monad = NonEmptyList.Monad;
-
-var Infix = NonEmptyList.Infix;
-
-exports.ListMonoid = ListMonoid;
-exports.ListArrayLike = ListArrayLike;
-exports.NonEmptyList = NonEmptyList$1;
 exports.make = make;
-exports.head = head;
-exports.tail = tail;
-exports.length = length;
 exports.pure = pure;
-exports.fromT = fromT;
-exports.toT = toT;
-exports.append = append;
-exports.cons = cons;
-exports.fold_left = fold_left;
-exports.foldl1 = foldl1;
-exports.reverse = reverse;
-exports.map = map;
-exports.join = join;
-exports.apply = apply;
-exports.flat_map = flat_map;
-exports.Magma_Any = Magma_Any;
-exports.Semigroup_Any = Semigroup_Any;
-exports.Functor = Functor;
-exports.Apply = Apply;
-exports.Applicative = Applicative;
-exports.Monad = Monad;
-exports.Infix = Infix;
 exports.fromList = fromList;
 exports.toList = toList;
-/* NonEmptyList Not a pure module */
+exports.head = head;
+exports.tail = tail;
+exports.map = map;
+exports.foldl = foldl;
+/* No side effect */
