@@ -1,6 +1,6 @@
 'use strict';
 
-var NonEmptyList = require("bs-nonempty/lib/js/./src/NonEmptyList.bs.js");
+var NonEmptyList = require("bs-nonempty/./src/NonEmptyList.bs.js");
 
 var fromList = NonEmptyList.NonEmptyList[/* fromT */5];
 
