@@ -4,7 +4,7 @@ module Exn = {
 
 let pure = Js.Promise.resolve;
 let reject = Js.Promise.reject;
-let rejectStr = (str) => reject(Exn.PromiseFailure(str));
+let rejectStr = str => reject(Exn.PromiseFailure(str));
 let flatMap = Js.Promise.then_;
 
 /**
@@ -19,35 +19,49 @@ let map = (fn, prom) => flatMap(v => pure(fn(v)), prom);
  * option is `Some`, or a rejected promise if the option is `None`, failing with
  * the provided error message.
  */
-let fromOption = (errorMsg, opt) => switch opt {
-| Some(v) => pure(v);
-| None => rejectStr(errorMsg);
-};
+let fromOption = (errorMsg, opt) =>
+  switch (opt) {
+  | Some(v) => pure(v)
+  | None => rejectStr(errorMsg)
+  };
 
 /**
  * Convert a `Result.t` to a `Promise.t`
  */
-let fromResult = (errToExn, result) => switch result {
-| Elude_Result.Ok(a) => pure(a)
-| Elude_Result.Err(e) => reject(errToExn(e))
-};
+let fromResult = (errToExn, result) =>
+  switch (result) {
+  | Elude_Result.Ok(a) => pure(a)
+  | Elude_Result.Err(e) => reject(errToExn(e))
+  };
 
 /**
  * Convert a `result` with a string error to a `promise`
  */
-let fromStringResult(v) = fromResult(str => Exn.PromiseFailure(str), v);
+let fromStringResult = v => fromResult(str => Exn.PromiseFailure(str), v);
 
 /**
  * Perform a side effect with the result of a successful promise.
  */
 let success = (fn: 'a => unit, prom) =>
-  map(a => { fn(a); a }, prom);
+  map(
+    a => {
+      fn(a);
+      a;
+    },
+    prom,
+  );
 
 /**
  * Perform a side effect using the error from a failed promise.
  */
 let failure = (fn: Js.Promise.error => unit, prom: Js.Promise.t('a)) =>
-  Js.Promise.catch(err => { fn(err); prom}, prom);
+  Js.Promise.catch(
+    err => {
+      fn(err);
+      prom;
+    },
+    prom,
+  );
 
 /**
  * Convert a failed promise into a successful promise of some time.
@@ -61,19 +75,23 @@ let recover = (fn: Js.Promise.error => 'a, prom) =>
 let recoverWith = (fn: Js.Promise.error => Js.Promise.t('a), prom) =>
   Js.Promise.catch(fn, prom);
 
-
 /**
  * Given a function from `'a => 'b` that can throw an exception, and a promise
  * of `'a`, flatMap into a promise of 'b, rejecting if the function throws.
  */
 let tries = (fnExn, prom) =>
-  flatMap(a =>
-    try (pure(fnExn(a))) {
-    | exn => reject(exn)
-    }, prom);
+  flatMap(
+    a =>
+      try (pure(fnExn(a))) {
+      | exn => reject(exn)
+      },
+    prom,
+  );
 
-let doInOrder = (go: 'a => Js.Promise.t('b), data: list('a)) => {
-  Elude_List.foldl((acc, curr) => {
-    flatMap(promises => map(v => [v, ...promises], go(curr)), acc);
-  }, pure([]), data);
-};
+let doInOrder = (go: 'a => Js.Promise.t('b), data: list('a)) =>
+  Elude_List.foldl(
+    (acc, curr) =>
+      flatMap(promises => map(v => [v, ...promises], go(curr)), acc),
+    pure([]),
+    data,
+  );

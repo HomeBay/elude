@@ -25,18 +25,25 @@ let reverse = Belt.List.reverse;
  * `list('b)`, filtering out all of the `None` values.
  */
 let mapOption = (fn: 'a => option('b), lst) =>
-  foldl((acc, curr) => switch (fn(curr)) {
-  | Some(b) => [b, ...acc]
-  | None => acc
-  }, [], lst) |> reverse;
+  foldl(
+    (acc, curr) =>
+      switch (fn(curr)) {
+      | Some(b) => [b, ...acc]
+      | None => acc
+      },
+    [],
+    lst,
+  )
+  |> reverse;
 
 /**
  * Check if list is empty, running time O(1)
  */
-let null = (lst): bool => switch lst {
-| [] => true
-| _ => false
-};
+let null = lst : bool =>
+  switch (lst) {
+  | [] => true
+  | _ => false
+  };
 
 /**
  * Given a comparison function for 'a, determine if any element matches the
@@ -48,22 +55,27 @@ let elem = (eq, el, lst) => any(eq(el), lst);
  * Return the first value in the list that satisfies the given predicate.
  */
 let find = (pred, lst) =>
-  foldl((acc, curr) => switch acc {
-  | None when (pred(curr)) => Some(curr)
-  | _ => acc
-  }, None, lst);
+  foldl(
+    (acc, curr) =>
+      switch (acc) {
+      | None when pred(curr) => Some(curr)
+      | _ => acc
+      },
+    None,
+    lst,
+  );
 
 /**
  * Remove all elements from a list that satisfy a predicate (inverse of filter)
  */
-let removeAll = (eq, el, lst) =>
-  filter(v => !eq(v, el), lst);
+let removeAll = (eq, el, lst) => filter(v => ! eq(v, el), lst);
 
 /**
  * Remove the first element of a list that satisfies a predicate
  */
-let rec removeFirst = (eq, el, lst) => switch lst {
+let rec removeFirst = (eq, el, lst) =>
+  switch (lst) {
   | [] => []
   | [x, ...xs] when eq(x, el) => xs
   | [x, ...xs] => [x, ...removeFirst(eq, el, xs)]
-};
+  };

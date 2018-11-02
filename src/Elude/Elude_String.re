@@ -11,4 +11,3 @@ let replaceAll = (~toReplace: string, ~replaceWith: string, src) =>
  */
 let remove = (~toRemove: string, src) =>
   replaceAll(~toReplace=toRemove, ~replaceWith="", src);
-

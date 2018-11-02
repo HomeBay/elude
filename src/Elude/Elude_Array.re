@@ -19,5 +19,5 @@ let traverseResult = (fn, arr) => {
   foldl(folder, pure(empty), arr);
 };
 
-let sequenceOption(v) = traverseOption(x => x, v);
-let sequenceResult(v) = traverseResult(x => x, v);
+let sequenceOption = v => traverseOption(x => x, v);
+let sequenceResult = v => traverseResult(x => x, v);
