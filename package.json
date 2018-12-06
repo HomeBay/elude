@@ -4,11 +4,15 @@
   "description": "A better prelude for ReasonML",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npm link bs-platform"
   },
   "author": "mlms13",
   "license": "MIT",
+  "dependencies": {
+    "relude": "reazen/relude#71c2263"
+  },
   "devDependencies": {
-    "bs-platform": "^4.0.0"
+    "bs-platform": "^4.0.6"
   }
 }
