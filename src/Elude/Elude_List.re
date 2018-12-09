@@ -1,81 +1,53 @@
 /**
  * Determine if any item satisfies the predicate.
  */
-let any = (pred, lst) => Belt.List.some(lst, pred);
+let any = (pred, lst) => Relude.List.any(pred, lst);
 
 /**
  * Transform each element in a list by applying the provided function to it.
  */
-let map = (fn, lst) => Belt.List.map(lst, fn);
+let map = (fn, lst) => Relude.List.map(fn, lst);
 
 /**
  * Accumulate the items of a list.
  */
-let foldl = (fn, init, lst) => Belt.List.reduce(lst, init, fn);
+let foldl = (fn, init, lst) => Relude.List.foldLeft(fn, init, lst);
 
-let filter = (pred, lst) => Belt.List.keep(lst, pred);
+let filter = (pred, lst) => Relude.List.filter(pred, lst);
 
 /**
  * Reverse a list.
  */
-let reverse = Belt.List.reverse;
+let reverse = Relude.List.reverse;
 
 /**
  * Given a function from `'a => option('b)`, transform a `list('a)` to a
  * `list('b)`, filtering out all of the `None` values.
  */
-let mapOption = (fn: 'a => option('b), lst) =>
-  foldl(
-    (acc, curr) =>
-      switch (fn(curr)) {
-      | Some(b) => [b, ...acc]
-      | None => acc
-      },
-    [],
-    lst,
-  )
-  |> reverse;
+let mapOption = (fn, lst) => Relude.List.mapOption(fn, lst);
 
 /**
  * Check if list is empty, running time O(1)
  */
-let null = lst : bool =>
-  switch (lst) {
-  | [] => true
-  | _ => false
-  };
+let null = lst => Relude.List.isEmpty(lst);
 
 /**
  * Given a comparison function for 'a, determine if any element matches the
  * provided element.
  */
-let elem = (eq, el, lst) => any(eq(el), lst);
+let elem = (eq, el, lst) => Relude.List.containsF(eq, el, lst);
 
 /**
  * Return the first value in the list that satisfies the given predicate.
  */
-let find = (pred, lst) =>
-  foldl(
-    (acc, curr) =>
-      switch (acc) {
-      | None when pred(curr) => Some(curr)
-      | _ => acc
-      },
-    None,
-    lst,
-  );
-
-/**
- * Remove all elements from a list that satisfy a predicate (inverse of filter)
- */
-let removeAll = (eq, el, lst) => filter(v => ! eq(v, el), lst);
+let find = (pred, lst) => Relude.List.find(pred, lst);
 
 /**
  * Remove the first element of a list that satisfies a predicate
  */
-let rec removeFirst = (eq, el, lst) =>
-  switch (lst) {
-  | [] => []
-  | [x, ...xs] when eq(x, el) => xs
-  | [x, ...xs] => [x, ...removeFirst(eq, el, xs)]
-  };
+let removeFirst = (eq, el, lst) => Relude.List.removeF(eq, el, lst);
+
+/**
+ * Remove all elements from a list that satisfy a predicate (inverse of filter)
+ */
+let removeAll = (eq, el, lst) => Relude.List.removeEachF(eq, el, lst);

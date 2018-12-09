@@ -26,7 +26,7 @@ let alt = (l, r) => Relude.Option.alt(l, r);
 /**
  * Infix operator for `alt`. `None <|> Some(3) == Some(3)`
  */
-let (<|>) = alt;
+let (<|>) = Relude.Option.Infix.(<|>);
 
 /**
  * Gets a value of type `'a` by providing a fallback value in case the option is
@@ -86,9 +86,4 @@ let toList = v => Relude.Option.toList(v);
  *
  * Any other combination is `false`
  */
-let eq = (innerEq, a, b) =>
-  switch (a, b) {
-  | (Some(x), Some(y)) => innerEq(x, y)
-  | (None, None) => true
-  | _ => false
-  };
+let eq = (innerEq, a, b) => Relude.Option.eqF(innerEq, a, b);
