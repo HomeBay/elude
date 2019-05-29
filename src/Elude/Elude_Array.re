@@ -1,23 +1,12 @@
-let empty = [||];
-let pure = v => [|v|];
-let append = Belt.Array.concat;
-let cons = (x, xs) => append(pure(x), xs);
-let map = (fn, arr) => Belt.Array.map(arr, fn);
-let foldl = (fn, init, arr) => Belt.Array.reduce(arr, init, fn);
+let empty = Relude.Array.empty
+let pure = Relude.Array.pure;
+let append = Relude.Array.concat;
+let cons = Relude.Array.cons;
+let map = Relude.Array.map;
+let foldl = Relude.Array.foldLeft;
 
-let traverseOption = (fn, arr) => {
-  let ap = Elude_Option.ap;
-  let pure = Elude_Option.pure;
-  let folder = (acc, curr) => ap(ap(pure(cons), fn(curr)), acc);
-  foldl(folder, pure(empty), arr);
-};
+let traverseOption = Relude.Array.Option.traverse;
+let traverseResult = Relude.Array.Result.traverse;
 
-let traverseResult = (fn, arr) => {
-  let ap = Elude_Result.ap;
-  let pure = Elude_Result.pure;
-  let folder = (acc, curr) => ap(ap(pure(cons), fn(curr)), acc);
-  foldl(folder, pure(empty), arr);
-};
-
-let sequenceOption = v => traverseOption(x => x, v);
-let sequenceResult = v => traverseResult(x => x, v);
+let sequenceOption = Relude.Array.Option.sequence;
+let sequenceResult = Relude.Array.Result.sequence;

@@ -6,6 +6,7 @@ node_modules
 /lib/bs
 /dist
 .merlin
+.bsb.lock
 
 # os files
 .DS_Store

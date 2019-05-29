@@ -29,10 +29,7 @@ let fromOption = (errorMsg, opt) =>
  * Convert a `Result.t` to a `Promise.t`
  */
 let fromResult = (errToExn, result) =>
-  switch (result) {
-  | Elude_Result.Ok(a) => pure(a)
-  | Elude_Result.Err(e) => reject(errToExn(e))
-  };
+  Relude.Result.fold(e => reject(errToExn(e)), pure, result);
 
 /**
  * Convert a `result` with a string error to a `promise`
@@ -88,8 +85,8 @@ let tries = (fnExn, prom) =>
     prom,
   );
 
-let doInOrder = (go: 'a => Js.Promise.t('b), data: list('a)) =>
-  Elude_List.foldl(
+let doInOrder = (go: 'a => Js.Promise.t('b), data) =>
+  Relude.List.foldLeft(
     (acc, curr) =>
       flatMap(promises => map(v => [v, ...promises], go(curr)), acc),
     pure([]),

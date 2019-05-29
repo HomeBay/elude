@@ -86,4 +86,4 @@ let toList = v => Relude.Option.toList(v);
  *
  * Any other combination is `false`
  */
-let eq = (innerEq, a, b) => Relude.Option.eqF(innerEq, a, b);
+let eq = (innerEq, a, b) => Relude.Option.eqBy(innerEq, a, b);

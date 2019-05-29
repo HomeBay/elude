@@ -35,7 +35,7 @@ let null = lst => Relude.List.isEmpty(lst);
  * Given a comparison function for 'a, determine if any element matches the
  * provided element.
  */
-let elem = (eq, el, lst) => Relude.List.containsF(eq, el, lst);
+let elem = (eq, el, lst) => Relude.List.containsBy(eq, el, lst);
 
 /**
  * Return the first value in the list that satisfies the given predicate.
@@ -45,9 +45,9 @@ let find = (pred, lst) => Relude.List.find(pred, lst);
 /**
  * Remove the first element of a list that satisfies a predicate
  */
-let removeFirst = (eq, el, lst) => Relude.List.removeF(eq, el, lst);
+let removeFirst = (eq, el, lst) => Relude.List.removeFirstBy(eq, el, lst);
 
 /**
  * Remove all elements from a list that satisfy a predicate (inverse of filter)
  */
-let removeAll = (eq, el, lst) => Relude.List.removeEachF(eq, el, lst);
+let removeAll = (eq, el, lst) => Relude.List.removeEachBy(eq, el, lst);
