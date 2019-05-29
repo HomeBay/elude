@@ -9,7 +9,7 @@
   },
   "author": "mlms13",
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "bs-abstract": "^0.17.0",
     "relude": "^0.12.1"
   },
